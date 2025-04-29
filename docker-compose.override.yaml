@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # Mocked Data source files from this sftp will be csv's
+  sftp-partner-1:
+    image: atmoz/sftp:latest
+    container_name: sftp-partner1
+    ports:
+      - "2222:22"
+    volumes:
+      - ./sftp/partner1:/home/csvuser/download
+    command: csvuser:password:1000
+    # due to issue addressed here https://github.com/atmoz/sftp/issues/341 in case you want to manually sftp into the
+    # container you need these lines
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+  # Mocked Data source files from this sftp will be Fixed Width Format files
+  sftp-partner-2:
+    image: atmoz/sftp:latest
+    container_name: sftp-partner2
+    ports:
+      - "2223:22"
+    volumes:
+      - ./sftp/partner2:/home/fwfuser/download
+    command: fwfuser:password
+
+  # To have a local version of AWS service and mock buckets
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio-data:/data
+
+volumes:
+  minio-data:
