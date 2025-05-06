@@ -1,0 +1,28 @@
+import os
+from minio import Minio
+from minio.error import S3Error
+
+
+def upload_file_to_s3(
+    minio_endpoint,
+    minio_access_key,
+    minio_secret_key,
+    bucket,
+    local_path,
+    file_names,
+    **kwargs
+):
+    client = Minio(
+        minio_endpoint,
+        access_key=minio_access_key,
+        secret_key=minio_secret_key,
+        secure=False  # Set to True if using HTTPS
+    )
+    found = client.bucket_exists(bucket)
+    if not found:
+        client.make_bucket(bucket)
+
+    for file_name in file_names:
+        local_file_path = f'{local_path}/{file_name}'
+        client.fput_object(bucket, file_name, local_file_path)
+        print(f"Uploaded {local_path} to {bucket}/{file_name}")
