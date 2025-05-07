@@ -20,7 +20,7 @@ def download_files_from_sftp_task(**kwargs):
 
 def backup_to_s3_task(**kwargs):
     ti = kwargs['ti']
-    file_names = ti.xcom_pull(task_ids='download_files_from_sftp_task', key='downloaded_file_names')
+    file_names = ti.xcom_pull(task_ids='download_file_from_sftp', key='downloaded_file_names')
     local_path = f"/tmp"
     bucket = "partner-1"
 
@@ -51,3 +51,10 @@ with DAG(
         task_id='download_file_from_sftp',
         python_callable=download_files_from_sftp_task
     )
+    
+    backup_to_s3 = PythonOperator(
+        task_id='backup_to_s3_task',
+        python_callable=backup_to_s3_task
+    )
+
+    download_file >> backup_to_s3
