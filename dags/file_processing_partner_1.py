@@ -5,6 +5,7 @@ from airflow import DAG
 from airflow.providers.sftp.hooks.sftp import SFTPHook
 from airflow.providers.standard.operators.python import PythonOperator
 
+from src.partner_1_parser import parse_file
 from src.s3_helper import upload_file_to_s3
 from src.sftp_helper import fetch_files_from_sftp
 
@@ -33,6 +34,20 @@ def backup_to_s3_task(**kwargs):
         file_names=file_names
     )
 
+def parse_file_task(**kwargs):
+    ti = kwargs['ti']
+    file_names = ti.xcom_pull(task_ids='download_file_from_sftp', key='downloaded_file_names')
+    local_path = f"/tmp"
+    bucket = "partner-1"
+    parse_file(
+        minio_endpoint="minio:9000",
+        minio_access_key="minioadmin",
+        minio_secret_key="minioadmin",
+        local_path=local_path,
+        file_names=file_names,
+        bucket=bucket
+    )
+
 default_args = {
     'owner': 'MadFatKirby',
     'retries': 1,
@@ -57,4 +72,9 @@ with DAG(
         python_callable=backup_to_s3_task
     )
 
-    download_file >> backup_to_s3
+    parse_partner_file = PythonOperator(
+        task_id='parse_file_task',
+        python_callable=parse_file_task
+    )
+
+    download_file >> backup_to_s3 >> parse_partner_file

@@ -11,6 +11,7 @@ def upload_file_to_s3(
     bucket,
     local_path,
     file_names,
+    processed: bool = False,
     **kwargs
 ):
     client = Minio(
@@ -30,6 +31,8 @@ def upload_file_to_s3(
         # just to add more real-world requirements.
         current_date_str = pendulum.today().format('YYYYMMDD')
         bucket_key = f"{current_date_str}/{file_name}"
+        if processed:
+            bucket_key = f"{current_date_str}/processed/{file_name}"
 
         client.fput_object(bucket, bucket_key, local_file_path)
         print(f"Uploaded {local_path} to {bucket}/{bucket_key}")
