@@ -19,6 +19,7 @@ x-airflow-common:
     AIRFLOW__CORE__EXECUTION_API_SERVER_URL: 'http://airflow-apiserver:8080/execution/'
     AIRFLOW_CONN_SFTP_PARTNER1: 'sftp://csvuser:password@sftp-partner-1:22'
     AIRFLOW_CONN_SFTP_PARTNER2: 'sftp://fwfuser:password@sftp-partner-2:22'
+    AIRFLOW_CONN_POSTGRES_DB_URL: 'postgresql+psycopg2://airflow:airflow@postgres/airflow'
     # yamllint disable rule:line-length
     # Use simple http server on scheduler for health checks
     # See https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/logging-monitoring/check-health.html#scheduler-health-check-server

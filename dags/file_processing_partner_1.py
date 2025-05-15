@@ -1,9 +1,9 @@
+import pandas as pd
 import pendulum
-import os
-
 from airflow import DAG
-from airflow.providers.sftp.hooks.sftp import SFTPHook
+from airflow.hooks.base import BaseHook
 from airflow.providers.standard.operators.python import PythonOperator
+from sqlalchemy import create_engine
 
 from src.partner_1_parser import parse_file
 from src.s3_helper import upload_file_to_s3
@@ -48,6 +48,18 @@ def parse_file_task(**kwargs):
         bucket=bucket
     )
 
+def load_to_db_task(**kwargs):
+    conn = BaseHook.get_connection("postgres_db_url")
+    db_uri = conn.get_uri()
+    print(f"Database URI: {db_uri}")
+
+    parquet_path = "/tmp/partner_1.parquet"
+    table_name = "eligible_members"
+    df = pd.read_parquet(parquet_path)
+    engine = create_engine(db_uri)
+    df.to_sql(table_name, engine, if_exists='append', index=False, method='multi', chunksize=1000)
+    print(f"Loaded {parquet_path} into {table_name} table.")
+
 default_args = {
     'owner': 'MadFatKirby',
     'retries': 1,
@@ -77,4 +89,9 @@ with DAG(
         python_callable=parse_file_task
     )
 
-    download_file >> backup_to_s3 >> parse_partner_file
+    load_to_db = PythonOperator(
+        task_id='load_to_db_task',
+        python_callable=load_to_db_task
+    )
+
+    download_file >> backup_to_s3 >> parse_partner_file >> load_to_db
