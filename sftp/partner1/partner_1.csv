@@ -1,0 +1,11 @@
+src_sys_mbr_id,person_id,ssn_nbr,enrl_from_dt,enrl_thru_dt,brth_dt,first_nm,mid_nm,last_nm,gend_cd,address_ln_1,address_ln_2,city_nm,st_cd,pstl_cd,cnty_nm,phone_nbr,email_addr_txt,cob_type
+VG101,,,2024-01-01,2024-12-31,1986-07-09,MARIO,L,BROS,M,600 N Clark St,,Chicago,IL,60654,COOK,3125551234,mario.bros@nintendo.com,PRIMARY
+VG102,,,2024-01-01,2024-12-31,1991-02-14,SONIC,,THEHEDGEHOG,M,1 McDonald's Plz,,Oak Brook,IL,60523,DU PAGE,6305555678,sonic@sega.com,PRIMARY
+VG103,,,2024-01-01,2024-12-31,1988-11-30,LARA,A,CROFT,F,233 S Wacker Dr,,Chicago,IL,60606,COOK,3125558765,l.croft@tombraider.com,PRIMARY
+VG104,,,2024-01-01,2024-12-31,1972-03-21,LUIGI,M,BROS,M,1600 Amphitheatre Pkwy,,Mountain View,CA,94043,SANTA CLARA,6505554321,luigi.bros@nintendo.com,PRIMARY
+VG105,,,2024-01-01,2024-12-31,1983-05-25,LINK,,HERO,M,221B Baker St,,Mountain View,CA,94052,SANTA CLARA,6505554999,link.hero@hyrule.com,PRIMARY
+VG106,,,2024-01-01,2024-12-31,1987-09-10,SAMUS,A,ARAN,F,110 N Carpenter St,,Chicago,IL,60607,COOK,3125552468,samus.aran@nintendo.com,PRIMARY
+VG107,,,2024-01-01,2024-12-31,1994-12-17,KRATOS,,GODOFWAR,M,151 N Michigan Ave,,Chicago,IL,60601,COOK,3125551357,kratos@olympus.com,PRIMARY
+VG108,,,2024-01-01,2024-12-31,1985-06-23,PRINCESS,M,PEACH,F,233 S State St,,Chicago,IL,60604,COOK,3125559753,princess.peach@nintendo.com,PRIMARY
+VG109,,,2024-01-01,2024-12-31,1990-10-11,CLOUD,,STRIFE,M,600 E Grand Ave,,Chicago,IL,60611,COOK,3125558642,cloud@ffvii.com,PRIMARY
+VG110,,,2024-01-01,2024-12-31,1989-04-26,ELLIE,N,WILLIAMS,F,700 W Chicago Ave,,Chicago,IL,60654,COOK,3125557531,ellie.williams@lastofus.com,PRIMARY

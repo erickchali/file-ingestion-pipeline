@@ -13,18 +13,21 @@ This project uses the official [Apache Airflow Docker Compose setup for local de
 
 2. **Initialize Airflow metadata database**
    ```bash
-   docker compose up airflow-init
+   docker compose -f docker-compose.yaml -f docker-compose.override.yaml up airflow-init
    ```
 
-3. **Start all Airflow services**
+3. **Start all Airflow and custom services**
    ```bash
-   docker compose up
+   docker compose -f docker-compose.yaml -f docker-compose.override.yaml up
    ```
 
-At this point, everything should work as expected with the default Airflow Docker Compose setup.
+   - This will launch the default Airflow stack along with your custom SFTP and Minio services defined in `docker-compose.override.yaml`.
+
+At this point, everything should work as expected with the default Airflow Docker Compose setup plus your local extensions.
 
 ## Notes
 - The `docker-compose.yaml` file at this stage is a direct implementation from the [official Airflow documentation](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html#running-airflow-in-docker) for local development.
+- The `docker-compose.override.yaml` file contains custom services (SFTP servers, Minio, etc.) for local ETL pipeline development (this is what I really did).
 - The `airflow-python` service exists only to provide a Python interpreter for debugging DAG code in PyCharm (as recommended in the official docs). It is not required for running Airflow itself.
 
 ---
