@@ -20,15 +20,30 @@ CSV_TO_SCHEMA = {
     "pstl_cd": "zip_code",
     "phone_nbr": "primary_phone_number",
     "email_addr_txt": "email",
-    "cob_type": "coverage_type"
+    "cob_type": "coverage_type",
 }
 
 ALL_COLUMNS = [
-    "member_id", "referral_code", "benefit_start_date", "benefit_end_date", "dob",
-    "first_name", "last_name", "middle_name", "gender", "address_line_1", "address_line_2",
-    "city", "state", "zip_code", "primary_phone_number", "secondary_phone_number",
-    "email", "coverage_type"
+    "member_id",
+    "referral_code",
+    "benefit_start_date",
+    "benefit_end_date",
+    "dob",
+    "first_name",
+    "last_name",
+    "middle_name",
+    "gender",
+    "address_line_1",
+    "address_line_2",
+    "city",
+    "state",
+    "zip_code",
+    "primary_phone_number",
+    "secondary_phone_number",
+    "email",
+    "coverage_type",
 ]
+
 
 def parse_file(
     minio_endpoint: str,
@@ -46,7 +61,9 @@ def parse_file(
         df = df.rename(columns=CSV_TO_SCHEMA)
 
         df["referral_code"] = "partner-1"
-        df["benefit_start_date"] = pd.to_datetime(df["benefit_start_date"], errors="coerce")
+        df["benefit_start_date"] = pd.to_datetime(
+            df["benefit_start_date"], errors="coerce"
+        )
         df["benefit_end_date"] = pd.to_datetime(df["benefit_end_date"], errors="coerce")
         df["dob"] = pd.to_datetime(df["dob"], errors="coerce").dt.date
         df["secondary_phone_number"] = ""
@@ -66,5 +83,5 @@ def parse_file(
         bucket=bucket,
         file_names=processed_files,
         local_path=local_path,
-        processed=True
+        processed=True,
     )

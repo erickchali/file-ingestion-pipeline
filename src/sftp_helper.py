@@ -5,11 +5,11 @@ def fetch_files_from_sftp(
     sftp_connection_id: str,
     sftp_directory: str,
     local_directory: str,
-    partner_name: str
+    partner_name: str,
 ):
     sftp_hook = SFTPHook(ssh_conn_id=sftp_connection_id)
     files = sftp_hook.list_directory(sftp_directory)
-    file_names = [f for f in files if not f.startswith('.')]
+    file_names = [f for f in files if not f.startswith(".")]
     if not file_names:
         raise ValueError(f"No files found for partner {partner_name} {sftp_directory}")
 
