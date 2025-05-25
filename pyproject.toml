@@ -41,7 +41,7 @@ max_complexity = 25  # Matching your updated flake8 max-complexity
 
 [tool.ruff.format]
 # Use double quotes for docstrings
-docstring_code_format = true
-quote_style = "double"
+docstring-code-format = true
+quote-style = "double"
 # Line ending preferences
-line_ending = "auto"
+line-ending = "auto"
