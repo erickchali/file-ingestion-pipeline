@@ -1,14 +1,13 @@
 [tool.ruff]
-# Enable flake8-bugbear (`B`) rules.
-select = ["E", "F", "B", "I", "C", "W"]
 
 # Same as Black's line length
-line_length = 100
+line-length = 100
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]
+
 # Allow unused variables when underscore-prefixed.
-allow_unused_variables = true
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 # Exclude a variety of commonly ignored directories.
 exclude = [
@@ -24,20 +23,21 @@ exclude = [
 ]
 
 # Assume Python 3.10
-target_version = "py310"
+target-version = "py310"
 
 # Ignore specific rules in specific files
-[tool.ruff.per_file_ignores]
-"__init__.py" = ["F401"]  # Ignore unused imports in __init__.py
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402"]
+"**/{tests,docs,tools}/*" = ["E402"]
 
 # Customize isort behavior to match your previous isort config
 [tool.ruff.isort]
-known_first_party = ["src"]
-known_third_party = ["airflow", "minio"]
+known-first-party = ["src"]
+known-third-party = ["airflow", "minio"]
 
 # Configure flake8-like rules
 [tool.ruff.mccabe]
-max_complexity = 25  # Matching your updated flake8 max-complexity
+max-complexity = 25
 
 [tool.ruff.format]
 # Use double quotes for docstrings
