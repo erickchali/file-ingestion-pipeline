@@ -22,9 +22,7 @@ def download_files_from_sftp_task(**kwargs):
 
 def backup_to_s3_task(**kwargs):
     ti = kwargs["ti"]
-    file_names = ti.xcom_pull(
-        task_ids="download_file_from_sftp", key="downloaded_file_names"
-    )
+    file_names = ti.xcom_pull(task_ids="download_file_from_sftp", key="downloaded_file_names")
     local_path = "/tmp"
     bucket = "partner-1"
 
@@ -40,9 +38,7 @@ def backup_to_s3_task(**kwargs):
 
 def parse_file_task(**kwargs):
     ti = kwargs["ti"]
-    file_names = ti.xcom_pull(
-        task_ids="download_file_from_sftp", key="downloaded_file_names"
-    )
+    file_names = ti.xcom_pull(task_ids="download_file_from_sftp", key="downloaded_file_names")
     local_path = "/tmp"
     bucket = "partner-1"
     parse_file(
@@ -93,16 +89,10 @@ with DAG(
         task_id="download_file_from_sftp", python_callable=download_files_from_sftp_task
     )
 
-    backup_to_s3 = PythonOperator(
-        task_id="backup_to_s3_task", python_callable=backup_to_s3_task
-    )
+    backup_to_s3 = PythonOperator(task_id="backup_to_s3_task", python_callable=backup_to_s3_task)
 
-    parse_partner_file = PythonOperator(
-        task_id="parse_file_task", python_callable=parse_file_task
-    )
+    parse_partner_file = PythonOperator(task_id="parse_file_task", python_callable=parse_file_task)
 
-    load_to_db = PythonOperator(
-        task_id="load_to_db_task", python_callable=load_to_db_task
-    )
+    load_to_db = PythonOperator(task_id="load_to_db_task", python_callable=load_to_db_task)
 
     download_file >> backup_to_s3 >> parse_partner_file >> load_to_db

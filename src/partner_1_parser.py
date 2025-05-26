@@ -61,9 +61,7 @@ def parse_file(
         df = df.rename(columns=CSV_TO_SCHEMA)
 
         df["referral_code"] = "partner-1"
-        df["benefit_start_date"] = pd.to_datetime(
-            df["benefit_start_date"], errors="coerce"
-        )
+        df["benefit_start_date"] = pd.to_datetime(df["benefit_start_date"], errors="coerce")
         df["benefit_end_date"] = pd.to_datetime(df["benefit_end_date"], errors="coerce")
         df["dob"] = pd.to_datetime(df["dob"], errors="coerce").dt.date
         df["secondary_phone_number"] = ""
