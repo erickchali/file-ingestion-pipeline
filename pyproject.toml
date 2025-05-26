@@ -44,3 +44,13 @@ docstring-code-format = true
 quote-style = "double"
 # Line ending preferences
 line-ending = "auto"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_functions = "test_*"
+addopts = "--cov=src --cov=dags --cov-report=term-missing"
+markers = [
+    "unit: marks tests as unit tests",
+    "integration: marks tests as integration tests",
+]
